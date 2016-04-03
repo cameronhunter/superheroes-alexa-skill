@@ -15,13 +15,9 @@ test('Identity intent', t => {
           text: 'Spider-Man\'s secret identity is Peter Benjamin Parker'
         },
         card: {
-          type: 'Standard',
+          type: 'Simple',
           title: 'Secret Identity',
-          text: 'Spider-Man\'s secret identity is Peter Benjamin Parker',
-          image: {
-            smallImageUrl: 'http://static.comicvine.com/uploads/screen_medium/3/31666/4688877-asm2015002cov-288e0.jpg',
-            largeImageUrl: 'http://static.comicvine.com/uploads/scale_large/3/31666/4688877-asm2015002cov-288e0.jpg'
-          }
+          content: 'Spider-Man\'s secret identity is Peter Benjamin Parker'
         }
       }
     });

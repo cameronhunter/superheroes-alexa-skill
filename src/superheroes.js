@@ -1,6 +1,6 @@
 import APIConfig from '../config/comic-vine.config.js';
 import ComicAPI, { ERROR } from './comic-vine';
-import { say, ask, CardType } from 'alexa-response';
+import { say, ask } from 'alexa-response';
 import { Skill, Intent, Launch } from 'alexa-lambda-skill';
 import { ssml } from 'alexa-ssml';
 
@@ -19,17 +19,12 @@ export default class Superheroes {
 
   @Intent('Identity')
   identity({ query }) {
-    const search = api.search({ query, resources: 'character', field_list: ['name', 'real_name', 'image'] });
+    const search = api.search({ query, resources: 'character', field_list: ['name', 'real_name'] });
 
     return search.then(({ results }) => {
-      const [{ name, real_name, image }] = results;
+      const [{ name, real_name }] = results;
       const answer = `${name}'s secret identity is ${real_name}`;
-      return say(answer).card({
-        type: CardType.Standard,
-        title: 'Secret Identity',
-        text: answer,
-        ...(image && { image: { smallImageUrl: image.screen_url, largeImageUrl: image.super_url } })
-      });
+      return say(answer).card({ title: 'Secret Identity', content: answer });
     }).catch(error => {
       switch (error) {
         case ERROR.EMPTY_QUERY:
