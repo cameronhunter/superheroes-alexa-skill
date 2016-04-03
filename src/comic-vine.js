@@ -1,12 +1,23 @@
 import fetch from 'isomorphic-fetch';
 
 const API_ENDPOINT = 'https://comicvine.gamespot.com/api';
+const STATIC_CONTENT_ENDPOINT = 'http://static.comicvine.com';
 
 const log = (...args) => console.info('[ComicVine]', ...args);
 
 export const ERROR = {
   EMPTY_RESULT: 1,
   EMPTY_QUERY: 2
+};
+
+const byIssueCount = (a, b) => {
+  return b.count_of_issue_appearances - a.count_of_issue_appearances;
+};
+
+const hydrateImages = (images = {}) => {
+  return Object.entries(images).reduce((state, [key, value]) => {
+    return { ...state, [key]: STATIC_CONTENT_ENDPOINT + value };
+  }, {});
 };
 
 export default class ComicVine {
@@ -29,7 +40,10 @@ export default class ComicVine {
     ).then(
       (response) => ({
         ...response,
-        results: response.results.sort((a, b) => b.count_of_issue_appearances - a.count_of_issue_appearances)
+        results: response.results.sort(byIssueCount).map(({ image, ...rest }) => ({
+          ...rest,
+          ...(image && { image: hydrateImages(image) })
+        }))
       })
     );
   }
