@@ -1,9 +1,9 @@
 {
   "intents": [
     {
-      "intent": "hello",
+      "intent": "Identity",
       "slots": [
-        { "name": "name", "type": "LITERAL" }
+        { "name": "query", "type": "LITERAL" }
       ]
     }
   ]
