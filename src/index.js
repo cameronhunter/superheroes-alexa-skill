@@ -1,28 +1,21 @@
+import APIConfig from '../config/comic-vine.config.js';
+import ComicAPI from './comic-vine';
 import Response from 'alexa-response';
+import { Skill, Intent } from 'alexa-lambda-skill';
 import { ssml } from 'alexa-ssml';
-import { Skill, Launch, Intent } from 'alexa-lambda-skill';
+
+const api = new ComicAPI(APIConfig);
 
 @Skill
-export default class Test {
+export default class ComicQuestions {
 
-  @Launch
-  launch() {
-    return Response.say('Test launched!');
-  }
-
-  @Intent('hello')
-  hello({ name = 'world' }) {
-    return Response.say(`Hello ${name}`).card({ title:'Test', content:`Hello ${name}` });
-  }
-
-  @Intent('AMAZON.HelpIntent')
-  help() {
-    return Response.ask('I say hello to people. Who should I say hello to?').reprompt('Who should I say hello to?');
-  }
-
-  @Intent('AMAZON.CancelIntent', 'AMAZON.StopIntent')
-  stop() {
-    return Response.say(<speak>Goodbye!</speak>);
+  @Intent('COMIC.Identity')
+  identity({ query }) {
+    return api.search({ query, resources: 'character', field_list: ['name', 'real_name'] }).then(response => {
+      const [{ name, real_name }] = response.results;
+      const answer = `${name}'s secret identity is ${real_name}`;
+      return Response.say(answer).card({ title: 'Secret Identity', content: answer });
+    });
   }
 
 }
