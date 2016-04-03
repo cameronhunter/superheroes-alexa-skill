@@ -1,4 +1,6 @@
-import { Skill, Launch, Intent, Response } from 'alexa-lambda-skill';
+import Response from 'alexa-response';
+import { ssml } from 'alexa-ssml';
+import { Skill, Launch, Intent } from 'alexa-lambda-skill';
 
 @Skill
 export default class Test {
@@ -10,7 +12,7 @@ export default class Test {
 
   @Intent('hello')
   hello({ name = 'world' }) {
-    return Response.say(`Hello ${name}`).card('Test', `Hello ${name}`);
+    return Response.say(`Hello ${name}`).card({ title:'Test', content:`Hello ${name}` });
   }
 
   @Intent('AMAZON.HelpIntent')
@@ -20,7 +22,7 @@ export default class Test {
 
   @Intent('AMAZON.CancelIntent', 'AMAZON.StopIntent')
   stop() {
-    return Response.say('Goodbye');
+    return Response.say(<speak>Goodbye!</speak>);
   }
 
 }
