@@ -1,3 +1,3 @@
-import superheroes from './superheroes';
+import Superheroes from './superheroes';
 
-module.exports = superheroes;
+module.exports = Superheroes;

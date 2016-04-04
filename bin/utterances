@@ -1,43 +1,33 @@
-#!/usr/bin/env node
+#!/usr/bin/env babel-node
 
-var fs = require('fs');
-var path = require('path');
-var utterances = require('alexa-utterances');
+import fs from 'fs';
+import Path from 'path';
+import Utterances from 'alexa-utterances';
+import nomnom from 'nomnom';
 
-var slots = {
-  query: 'LITERAL'
+const loadFile = (transform = i => i) => (filepath) => transform(fs.readFileSync(Path.join(process.cwd(), filepath), 'UTF-8'));
+
+const {
+  schema = {},
+  utterances = [],
+  dictionary = {}
+} = nomnom
+      .script('utterances')
+      .option('schema', { required: true, transform: loadFile(JSON.parse) })
+      .option('utterances', { required: true, transform: loadFile(file => file.split('\n')) })
+      .option('dictionary', { transform: loadFile(JSON.parse) })
+      .parse();
+
+const flatten = (state, items) => {
+  return items ? [...state, ...(Array.isArray(items) ? items : [items])] : state;
 };
 
-var dictionary = {
-  superheroes: [
-    'Batman',
-    'Blackcat',
-    'Captain America',
-    'Cyclops',
-    'Elektra',
-    'Harley Quin',
-    'Hawkeye',
-    'Iron Man',
-    'Jean Grey',
-    'Kingpin',
-    'Luke Cage',
-    'Magneto',
-    'Mystique',
-    'Thor',
-    'Spider-woman',
-    'Phoenix',
-    'Professor X',
-    'Spider-man',
-    'The Invisible Woman',
-    'The Joker',
-    'The Punisher',
-    'The Thing',
-    'Wolverine'
-  ]
+const toMap = (key, value) => (state, object) => {
+  return { ...state, [object[key]]: object[value] };
 };
 
-var templates = fs.readFileSync(path.join(__dirname, '..', 'SAMPLES'), 'UTF-8').split('\n');
+const slots = schema.intents.map(_ => _.slots).reduce(flatten, []).reduce(toMap('name', 'type'), {});
 
-var data = templates.reduce((state, template) => state.concat(utterances(template, slots, dictionary)), []);
-
-fs.writeFileSync(path.join(__dirname, '..', 'build', 'UTTERANCES'), data.join('\n'));
+utterances.map(utterance => Utterances(utterance, slots, dictionary)).reduce(flatten, []).forEach(utterance => {
+  console.log(utterance);
+});

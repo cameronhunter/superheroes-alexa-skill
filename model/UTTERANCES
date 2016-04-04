@@ -1,4 +1,4 @@
-Identity who is {superheroes|query}
+Identity {who is |}{superheroes|query}
 Identity {do you know |}who {superheroes|query} is
 Identity what is {superheroes|query} real {name|identity}
 Identity {do you know |}what {superheroes|query} real {name|identity} is
