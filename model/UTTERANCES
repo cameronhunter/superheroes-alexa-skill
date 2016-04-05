@@ -1,4 +1,7 @@
+Identity who {spiderman|query} is
+Identity what {batman's|query} real identity is
+Identity if it knows who {superman|query} is
 Identity {who is |}{superheroes|query}
-Identity {do you know |}who {superheroes|query} is
+Identity {do you know |if it knows |}who {superheroes|query} is
 Identity what is {superheroes|query} real {name|identity}
-Identity {do you know |}what {superheroes|query} real {name|identity} is
+Identity {do you know |if it knows |}what {superheroes|query} real {name|identity} is
