@@ -1,7 +1,7 @@
 import APIConfig from '../config/comic-vine.config.js';
 import ComicAPI, { ERROR } from './comic-vine';
 import { say, ask } from 'alexa-response';
-import { Skill, Intent, Launch } from 'alexa-lambda-skill';
+import { Skill, Intent, Launch } from 'alexa-annotations';
 
 const api = new ComicAPI(APIConfig);
 
