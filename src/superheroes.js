@@ -1,6 +1,6 @@
 import APIConfig from '../config/comic-vine.config.js';
 import ComicAPI, { ERROR } from './comic-vine';
-import { say, ask } from 'alexa-response';
+import Response, { say, ask } from 'alexa-response';
 import { Skill, Intent, Launch } from 'alexa-annotations';
 
 const api = new ComicAPI(APIConfig);
@@ -23,7 +23,10 @@ export default class Superheroes {
     return search.then(({ results }) => {
       const [{ name, real_name }] = results;
       const answer = `${name}'s secret identity is ${real_name}`;
-      return say(answer).card({ title: 'Secret Identity', content: answer });
+      return Response.build({
+        say: answer,
+        card: { title: 'Secret Identity', content: answer }
+      });
     }).catch(error => {
       switch (error) {
         case ERROR.EMPTY_QUERY:

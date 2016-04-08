@@ -1,12 +1,12 @@
 import test from 'ava';
 import { handler as Skill } from '..';
-import { Request } from 'alexa-lambda-skill';
+import { Request } from 'alexa-annotations';
 
 test('Identity intent', t => {
   const event = Request.intent('Identity', { query: 'spider-man' }).build();
 
   return Skill(event).then(response => {
-    t.same(response, {
+    t.deepEqual(response, {
       version: '1.0',
       response: {
         shouldEndSession: true,
@@ -28,7 +28,7 @@ test('Help intent', t => {
   const event = Request.intent('AMAZON.HelpIntent').build();
 
   return Skill(event).then(response => {
-    t.same(response, {
+    t.deepEqual(response, {
       version: '1.0',
       response: {
         shouldEndSession: false,
