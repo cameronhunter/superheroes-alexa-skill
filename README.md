@@ -2,11 +2,13 @@
 
 An Alexa skill for the Amazon Echo. It reveals superheroes identities using the [Comic Vine API](http://comicvine.gamespot.com/api/). Generated using [generator-alexa-skill](https://github.com/cameronhunter/generator-alexa-skill).
 
+Available to use in the [Alexa Skill store](http://alexa.amazon.com/spa/index.html#skills/amzn1.echo-sdk-ams.app.59b2b446-e3ef-4b72-9827-32ccb6bc2836)!
+
 ## Example phrases
 ```
-Who is Batman?
-Do you know what Spider-man's real identity is?
-What is Mystique's real name?
+Alexa, ask Superheroes who Batman is
+Alexa, ask Superheroes do you know what Spider-man's real identity is?
+Alexa, ask Superheroes what is Mystique's real name?
 ```
 
 See `model/UTTERANCES` for more example phrases.
